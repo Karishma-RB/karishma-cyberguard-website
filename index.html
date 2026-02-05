@@ -1,0 +1,2488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGuard - Cybersecurity Education Platform</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css">
+    <style>
+        /* ===== CSS Variables ===== */
+        :root {
+            /* Pale Purple & Dark Blue Color Palette */
+            --primary: #8395e6;
+            --primary-dark: #1E3A8A;
+            --secondary: #6D28D9;
+            --accent: #8B5CF6;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            
+            /* Main Colors */
+            --pale-purple: #9485db;
+            --pale-purple-light: #EDE9FE;
+            --pale-green: #5fd297;
+            --pale-green-light: #A7F3D0;
+            --dark-blue: #1E3A8A;
+            --dark-blue-light: #3B82F6;
+            
+            /* Text Colors */
+            --text-dark: #0b297c;
+            --text-muted: #043a86;
+            --text-light: #000000;
+            
+            /* Additional colors */
+            --dark: #4878e8;
+            --dark-light: #3f87fa;
+            --light: #f8fafc;
+            --border: #6691ca;
+            --card-bg: rgba(201, 241, 222, 0.8);
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-purple: linear-gradient(135deg, #A78BFA, #8B5CF6);
+            --gradient-green: linear-gradient(135deg, var(--pale-green), #6EE7B7);
+            --gradient-dark: linear-gradient(135deg, var(--dark), var(--dark-light));
+            --gradient-hero: linear-gradient(135deg, #c3cefd 0%, #bc7aff 100%);
+            
+            /* Effects */
+            --glow: 0 0 20px rgba(139, 92, 246, 0.2);
+            --shadow: 0 10px 30px rgba(30, 58, 138, 0.1);
+            --shadow-lg: 0 20px 50px rgba(30, 58, 138, 0.15);
+            --border-radius: 16px;
+            --border-radius-sm: 8px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --box-shadow: 0 10px 25px rgba(116, 251, 222, 0.923);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--pale-purple);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .code-font {
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .text-center { text-align: center; }
+        .text-white { color: white; }
+        .text-muted { color: var(--text-muted); }
+        .mt-3 { margin-top: 1rem; }
+
+        /* ===== Navigation ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(180, 167, 244, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            transition: var(--transition);
+        }
+
+        .nav-logo:hover {
+            color: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        .nav-logo i {
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::before {
+            left: 0;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .nav-link.active {
+            color: var(--secondary);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .nav-link.active::before {
+            left: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 2rem;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--dark-blue);
+            border: 2px solid var(--dark-blue);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark-blue);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .btn-success {
+            background: var(--gradient-green);
+            color: var(--text-dark);
+        }
+
+        .btn-large {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-xs {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            border-radius: 4px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--secondary);
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            min-height: 100vh;
+            padding: 120px 0 80px;
+            background: var(--gradient-hero);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(45, 70, 185, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(109, 40, 217, 0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--dark-blue), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+            padding-top: 4rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== Sections ===== */
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-purple);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 2rem auto 0;
+        }
+
+        /* ===== Features ===== */
+        .features {
+            background: var(--pale-purple-light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2.5rem 2rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--secondary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ===== Chatbot Section ===== */
+        .chatbot-section {
+            background: var(--pale-purple);
+        }
+
+        .chatbot-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .chatbot-wrapper {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chatbot-header {
+            background: var(--gradient-purple);
+            padding: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .chatbot-header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chatbot-avatar {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .chatbot-info h4 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .chatbot-info small {
+            opacity: 0.8;
+            font-size: 0.85rem;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+            max-width: 85%;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            align-self: flex-end;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+        }
+
+        .message-content {
+            padding: 1rem 1.25rem;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .user-message .message-content {
+            background: var(--gradient-primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message .message-content {
+            background: white;
+            color: var(--text-dark);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-content strong {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .message-content p {
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            padding: 0 0.5rem;
+            align-self: flex-end;
+        }
+
+        .user-message .message-time {
+            align-self: flex-end;
+        }
+
+        .bot-message .message-time {
+            align-self: flex-start;
+        }
+
+        /* Knowledge Source Tags */
+        .knowledge-source {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: rgba(139, 92, 246, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .chatbot-input {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-control {
+            flex: 1;
+            padding: 0.875rem 1.25rem;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            border-radius: var(--border-radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .chatbot-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 0.5rem 1rem;
+            background: var(--pale-purple-light);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 20px;
+            color: var(--text-dark);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-action:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--secondary);
+        }
+
+        .feedback-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        /* Knowledge Base Info */
+        .knowledge-base-info {
+            background: var(--pale-purple-light);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            padding: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .knowledge-base-info h4 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .knowledge-sources {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .source-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            background: white;
+            border-radius: var(--border-radius-sm);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            transition: var(--transition);
+        }
+
+        .source-item:hover {
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .source-item i {
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .source-details {
+            flex: 1;
+        }
+
+        .source-details h5 {
+            margin: 0;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        .source-details p {
+            margin: 0.25rem 0 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* ===== Quiz Preview ===== */
+        .quiz-preview {
+            background: var(--pale-purple-light);
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, var(--secondary), transparent 30%);
+            animation: rotate 4s linear infinite;
+        }
+
+        .quiz-card > * {
+            position: relative;
+            z-index: 2;
+            background: var(--card-bg);
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        .quiz-question {
+            margin-bottom: 2.5rem;
+        }
+
+        .quiz-question h3 {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-option {
+            padding: 1.25rem 1.5rem;
+            background: white;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--secondary);
+            background: rgba(139, 92, 246, 0.05);
+            transform: translateX(10px);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .option-letter {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .quiz-explanation {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: 1.5rem;
+            border-radius: var(--border-radius-sm);
+            margin-top: 2rem;
+            display: none;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quiz-explanation.show {
+            display: block;
+        }
+
+        /* ===== About Section ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .mission-card, .vision-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            transition: var(--transition);
+        }
+
+        .mission-card:hover, .vision-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .mission-card h3, .vision-card h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mission-card p, .vision-card p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .value-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .value-card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .value-card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ===== Testimonials ===== */
+        .testimonials {
+            background: var(--pale-purple);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .testimonial-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+            font-style: italic;
+            position: relative;
+        }
+
+        .testimonial-content::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--secondary);
+            opacity: 0.3;
+            position: absolute;
+            top: -20px;
+            left: -10px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .author-info h4 {
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info span {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== CTA ===== */
+        .cta {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--pale-purple) 0%, var(--pale-purple-light) 100%);
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .cta p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            background: var(--pale-purple-light);
+            padding: 5rem 0 2rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-col h4 {
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+            transform: translateX(5px);
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 1.5rem;
+            text-decoration: none;
+        }
+
+        .footer-logo i {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            color: white;
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== Animations ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animation delays */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        /* ===== Mobile Menu ===== */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: var(--pale-purple);
+            padding: 2rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 999;
+            box-shadow: var(--shadow);
+        }
+
+        .mobile-menu.show {
+            display: flex;
+            animation: slideDown 0.3s ease;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2.5rem;
+            }
+
+            .chatbot-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .hero-stats {
+                gap: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+
+            .chatbot-wrapper {
+                height: 500px;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+
+            .knowledge-sources {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .feature-card,
+            .quiz-card,
+            .testimonial-card,
+            .mission-card,
+            .vision-card,
+            .value-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .chatbot-actions {
+                flex-direction: column;
+            }
+
+            .btn-action {
+                justify-content: center;
+            }
+
+            .chatbot-wrapper {
+                height: 450px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="nav-logo">
+                <i class="fas fa-shield-alt"></i>
+                CyberGuard
+            </a>
+             <div class="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#quiz" class="nav-link">Quiz</a>
+                <a href="#testimonials" class="nav-link">Testimonials</a>
+                <a href="login.html" class="nav-link">Login</a>
+                
+                <div id="authButtons">
+                    <a href="register.html" onclick="demoLogin()" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> Get Started
+                    </a>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#features" class="nav-link">Features</a>
+            <a href="#chatbot" class="nav-link">AI Assistant</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#quiz" class="nav-link">Quiz</a>
+            <a href="#testimonials" class="nav-link">Testimonials</a>
+            <div id="mobileAuthButtons">
+                <a href="#" class="btn btn-primary" style="margin-top: 1rem;" onclick="demoLogin()">
+                    <i class="fas fa-rocket"></i> Start Learning
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title fade-in">
+                    Master Cybersecurity Through<br>
+                    <span class="code-font">AI-Powered Learning</span>
+                </h1>
+                <p class="hero-subtitle fade-in" style="transition-delay: 0.2s;">
+                    Get instant answers from our RAG-powered AI assistant that combines MySQL databases 
+                    and PDF knowledge bases for comprehensive cybersecurity education.
+                </p>
+                
+                <div class="hero-buttons fade-in" style="transition-delay: 0.4s;" id="heroButtons">
+                    <a href="#" class="btn btn-primary btn-large" onclick="demoLogin()">
+                        <i class="fas fa-rocket"></i> Start Learning Free
+                    </a>
+                    <a href="#chatbot" class="btn btn-secondary btn-large">
+                        <i class="fas fa-robot"></i> Try AI Assistant
+                    </a>
+                </div>
+                
+                <div class="hero-stats fade-in" style="transition-delay: 0.6s;">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalUsers">10000+</span>
+                        <span class="stat-label">Active Learners</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalQuestions">500+</span>
+                        <span class="stat-label">Knowledge Sources</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="successRate">95%</span>
+                        <span class="stat-label">Accuracy Rate</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="countries">50+</span>
+                        <span class="stat-label">Countries</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose CyberGuard?</h2>
+                <p>Our platform provides comprehensive cybersecurity education powered by RAG technology</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered Assistant</h3>
+                    <p>Get instant, accurate answers from our RAG chatbot trained on MySQL databases and PDF knowledge bases.</p>
+                </div>
+                
+                <div class="feature-card fade-in delay-1">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Dual Knowledge Base</h3>
+                    <p>Combines structured MySQL data with unstructured PDF content for comprehensive cybersecurity information.</p>
+                </div>
+                
+                <div class="feature-card fade-in delay-2">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Expert Content</h3>
+                    <p>Quizzes and materials crafted by certified security professionals with real-world experience.</p>
+                </div>
+                
+                <div class="feature-card fade-in delay-3">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Progress Tracking</h3>
+                    <p>Monitor your improvement with detailed analytics and personalized recommendations.</p>
+                </div>
+                
+                <div class="feature-card fade-in delay-1">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Real-time Learning</h3>
+                    <p>Get up-to-date information from constantly updated knowledge bases and threat databases.</p>
+                </div>
+                
+                <div class="feature-card fade-in delay-2">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Friendly</h3>
+                    <p>Access your learning materials anytime, anywhere on any device.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot Section -->
+    <section class="section chatbot-section" id="chatbot">
+        <div class="container">
+            <div class="section-header">
+                <h2>AI Cybersecurity Assistant</h2>
+                <p>Experience the power of RAG technology with our dual-knowledge base AI assistant</p>
+            </div>
+            
+            <div class="chatbot-container fade-in">
+                <div class="chatbot-wrapper">
+                    <div class="chatbot-header">
+                        <div class="chatbot-header-content">
+                            <div class="chatbot-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="chatbot-info">
+                                <h4>CyberGuard AI Assistant</h4>
+                                <small>Powered by RAG (MySQL + PDF Knowledge Base)</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chatbot-messages" id="chatbotMessages">
+                        <div class="message bot-message">
+                            <div class="message-content">
+                                <strong>AI Assistant:</strong>
+                                <p>Hello! I'm your cybersecurity learning assistant powered by RAG technology. I can access information from both structured MySQL databases and PDF knowledge bases to provide you with accurate, comprehensive answers about:</p>
+                                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                                    <li>Cybersecurity threats and prevention</li>
+                                    <li>Network security best practices</li>
+                                    <li>Data protection regulations</li>
+                                    <li>Incident response procedures</li>
+                                    <li>And much more!</li>
+                                </ul>
+                                <p style="margin-top: 0.5rem;">What would you like to learn about today?</p>
+                            </div>
+                            <div class="message-time">Just now</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chatbot-input">
+                        <div class="input-group">
+                            <input type="text" 
+                                   id="chatInput" 
+                                   class="form-control" 
+                                   placeholder="Ask me anything about cybersecurity..."
+                                   autocomplete="off">
+                            <button class="btn btn-primary" onclick="sendChatMessage()" id="chatSendButton">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="chatbot-actions" id="quickQuestions">
+                            <button class="btn-action" onclick="insertQuickQuestion('What is phishing and how can I prevent it?')">
+                                <i class="fas fa-fish"></i> Phishing
+                            </button>
+                            <button class="btn-action" onclick="insertQuickQuestion('What are the latest cybersecurity threats?')">
+                                <i class="fas fa-shield-alt"></i> Threats
+                            </button>
+                            <button class="btn-action" onclick="insertQuickQuestion('How does encryption work?')">
+                                <i class="fas fa-lock"></i> Encryption
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Knowledge Base Information -->
+                <div class="knowledge-base-info fade-in" style="transition-delay: 0.2s;">
+                    <h4><i class="fas fa-database"></i> How Our RAG System Works</h4>
+                    <div class="knowledge-sources">
+                        <div class="source-item">
+                            <i class="fas fa-database"></i>
+                            <div class="source-details">
+                                <h5>MySQL Database</h5>
+                                <p>Structured cybersecurity data including threat databases, compliance rules, and security protocols</p>
+                            </div>
+                        </div>
+                        
+                        <div class="source-item">
+                            <i class="fas fa-file-pdf"></i>
+                            <div class="source-details">
+                                <h5>PDF Knowledge Base</h5>
+                                <p>Unstructured content from whitepapers, guidelines, research papers, and case studies</p>
+                            </div>
+                        </div>
+                        
+                        <div class="source-item">
+                            <i class="fas fa-brain"></i>
+                            <div class="source-details">
+                                <h5>RAG Integration</h5>
+                                <p>Real-time retrieval and generation that combines both knowledge sources for comprehensive answers</p>
+                            </div>
+                        </div>
+                        
+                        <div class="source-item">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="source-details">
+                                <h5>Source Citations</h5>
+                                <p>All answers include citations showing which knowledge base provided the information</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>About CyberGuard</h2>
+                <p>Empowering individuals and organizations with cybersecurity knowledge through interactive learning</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="mission-card fade-in">
+                    <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                    <p>
+                        To democratize cybersecurity education by providing engaging, accessible, and practical 
+                        learning experiences that empower individuals and organizations to protect themselves 
+                        in an increasingly digital world. We leverage cutting-edge RAG technology to make 
+                        comprehensive security knowledge available to everyone.
+                    </p>
+                </div>
+                
+                <div class="vision-card fade-in delay-1">
+                    <h3><i class="fas fa-eye"></i> Our Vision</h3>
+                    <p>
+                        We envision a future where cybersecurity literacy is universal, enabling a safer digital 
+                        ecosystem where individuals are empowered, organizations are resilient, and innovation 
+                        thrives without compromise to security. Through AI-powered education, we aim to bridge 
+                        the cybersecurity skills gap globally.
+                    </p>
+                </div>
+            </div>
+
+            <div class="values-grid">
+                <div class="value-card fade-in">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h4>Excellence in Education</h4>
+                    <p>We maintain the highest standards in content quality, ensuring every quiz reflects current security practices and real-world scenarios. Our AI assistant is trained on verified, up-to-date sources.</p>
+                </div>
+                
+                <div class="value-card fade-in delay-1">
+                    <i class="fas fa-users"></i>
+                    <h4>Accessibility for All</h4>
+                    <p>We believe cybersecurity knowledge should be available to everyone, regardless of background, experience level, or financial means. Our platform is free and open to all learners.</p>
+                </div>
+                
+                <div class="value-card fade-in delay-2">
+                    <i class="fas fa-lightbulb"></i>
+                    <h4>Continuous Innovation</h4>
+                    <p>We constantly evolve our platform to incorporate the latest security trends, threats, and learning methodologies. Our RAG system ensures knowledge is always current.</p>
+                </div>
+                
+                <div class="value-card fade-in delay-3">
+                    <i class="fas fa-handshake"></i>
+                    <h4>Community First</h4>
+                    <p>We foster a collaborative environment where learners support each other, share knowledge, and grow together. Our AI assistant learns from community interactions to improve.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Preview -->
+    <section class="section quiz-preview" id="quiz">
+        <div class="container">
+            <div class="section-header">
+                <h2>Test Your Knowledge</h2>
+                <p>Try our interactive quiz system powered by the same RAG knowledge base</p>
+            </div>
+            
+            <div class="quiz-card fade-in">
+                <div class="quiz-question">
+                    <h3>What is the most common method used by attackers to spread ransomware?</h3>
+                </div>
+                
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectQuizOption(this)">
+                        <div class="option-letter">A</div>
+                        Physical theft of devices
+                    </div>
+                    <div class="quiz-option" onclick="selectQuizOption(this)">
+                        <div class="option-letter">B</div>
+                        Phishing emails with malicious attachments
+                    </div>
+                    <div class="quiz-option" onclick="selectQuizOption(this)">
+                        <div class="option-letter">C</div>
+                        Brute force attacks on firewalls
+                    </div>
+                    <div class="quiz-option" onclick="selectQuizOption(this)">
+                        <div class="option-letter">D</div>
+                        Social engineering in person
+                    </div>
+                </div>
+                
+                <button class="btn btn-secondary" onclick="showExplanation()">
+                    <i class="fas fa-lightbulb"></i> Show Explanation
+                </button>
+                
+                <div class="quiz-explanation" id="quizExplanation">
+                    <h4><i class="fas fa-check-circle"></i> Correct Answer: Phishing emails with malicious attachments</h4>
+                    <p>Ransomware is most commonly spread through phishing emails that trick users into opening malicious attachments or clicking on infected links. According to our knowledge bases, these emails often appear to come from legitimate sources and use social engineering tactics to bypass security measures.</p>
+                    <p class="text-center mt-3">
+                        <a href="#" class="btn btn-primary" onclick="demoLogin()">
+                            <i class="fas fa-question-circle"></i> Take Full Quiz
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Our Learners Say</h2>
+                <p>Join thousands of satisfied users improving their cybersecurity skills with our AI assistant</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-content">
+                        The AI assistant is incredible! It combines information from MySQL databases and PDF documents to give comprehensive answers. I asked about GDPR compliance and got detailed information from both structured data and recent guidelines.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Michael Chen</h4>
+                            <span>IT Security Manager</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card fade-in delay-1">
+                    <div class="testimonial-content">
+                        As a cybersecurity student, the RAG-powered chatbot has been invaluable. It can cite specific sources from PDF documents while also pulling structured data from the database. The knowledge integration is seamless and incredibly helpful!
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <span>Cybersecurity Student</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card fade-in delay-2">
+                    <div class="testimonial-content">
+                        The combination of MySQL and PDF knowledge bases means I get up-to-date information that's both structured and comprehensive. The AI assistant can explain complex security concepts using examples from actual documents and databases.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>David Rodriguez</h4>
+                            <span>Network Administrator</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content fade-in">
+                <h2>Start Your Cybersecurity Journey Today</h2>
+                <p>Experience AI-powered learning with our RAG chatbot that combines structured MySQL data with PDF knowledge bases for comprehensive cybersecurity education.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary btn-large" onclick="demoLogin()">
+                        <i class="fas fa-rocket"></i> Start Learning Free
+                    </a>
+                    <a href="#chatbot" class="btn btn-secondary btn-large">
+                        <i class="fas fa-robot"></i> Try AI Assistant
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="footer-logo">
+                        <i class="fas fa-shield-alt"></i>
+                        CyberGuard
+                    </a>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">
+                        Empowering individuals and organizations with AI-powered cybersecurity knowledge through RAG technology and interactive learning.
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features"><i class="fas fa-chevron-right"></i> Features</a></li>
+                        <li><a href="#chatbot"><i class="fas fa-chevron-right"></i> AI Assistant</a></li>
+                        <li><a href="#quiz"><i class="fas fa-chevron-right"></i> Take Quiz</a></li>
+                        <li><a href="#" onclick="demoLogin()"><i class="fas fa-chevron-right"></i> Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Guides</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Knowledge Base</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 CyberGuard. All rights reserved. AI-powered cybersecurity education powered by RAG technology.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration
+        const API_BASE = 'http://localhost:5000/api'; // Change this to your Flask API endpoint
+        
+        // State
+        let currentUser = null;
+        let conversationHistory = [];
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+            initializeAnimations();
+            
+            // Initialize chatbot
+            initializeChatbot();
+            
+            // Initialize stats animation
+            animateStats();
+        });
+        
+        // Animate statistics numbers
+        function animateStats() {
+            const stats = [
+                { id: 'totalUsers', target: 10000, duration: 2000 },
+                { id: 'totalQuestions', target: 500, duration: 1500 },
+                { id: 'successRate', target: 95, duration: 1000 },
+                { id: 'countries', target: 50, duration: 1800 }
+            ];
+            
+            stats.forEach(stat => {
+                const element = document.getElementById(stat.id);
+                if (element) {
+                    animateValue(element, 0, stat.target, stat.duration);
+                }
+            });
+        }
+        
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                element.textContent = value + (element.id === 'successRate' ? '%' : '+');
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+        
+        // Initialize chatbot
+        function initializeChatbot() {
+            // Load conversation history from localStorage
+            const savedHistory = localStorage.getItem('chatbotHistory');
+            if (savedHistory) {
+                try {
+                    conversationHistory = JSON.parse(savedHistory);
+                    loadConversationHistory();
+                } catch (e) {
+                    console.error('Error loading conversation history:', e);
+                    conversationHistory = [];
+                }
+            }
+            
+            // Enable chatbot input
+            enableChatbot();
+        }
+        
+        // Enable chatbot input
+        function enableChatbot() {
+            const chatInput = document.getElementById('chatInput');
+            const chatSendButton = document.getElementById('chatSendButton');
+            const quickQuestions = document.getElementById('quickQuestions');
+            
+            chatInput.disabled = false;
+            chatInput.placeholder = "Ask me anything about cybersecurity...";
+            chatSendButton.disabled = false;
+            quickQuestions.style.display = 'flex';
+            
+            // Focus on input
+            setTimeout(() => {
+                chatInput.focus();
+            }, 500);
+        }
+        
+        // Load conversation history
+        function loadConversationHistory() {
+            const chatMessages = document.getElementById('chatbotMessages');
+            
+            // Clear existing messages (except welcome message)
+            while (chatMessages.children.length > 1) {
+                chatMessages.removeChild(chatMessages.lastChild);
+            }
+            
+            // Add conversation history
+            conversationHistory.forEach(msg => {
+                addMessageToChat(msg.role, msg.content, msg.source, false);
+            });
+            
+            // Scroll to bottom
+            setTimeout(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 100);
+        }
+        
+        // Chatbot functions
+        function insertQuickQuestion(question) {
+            const chatInput = document.getElementById('chatInput');
+            chatInput.value = question;
+            chatInput.focus();
+        }
+        
+        async function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Disable input while processing
+            input.disabled = true;
+            input.placeholder = "Processing your question...";
+            
+            // Add user message to chat
+            addMessageToChat('user', message, null, true);
+            input.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Add to conversation history
+            conversationHistory.push({
+                role: 'user',
+                content: message,
+                timestamp: new Date().toISOString()
+            });
+            
+            try {
+                // Prepare request data
+                const requestData = {
+                    question: message,
+                    conversation_history: conversationHistory.slice(-10),
+                    user_id: 'guest_user',
+                    source_preference: 'both'
+                };
+                
+                // Send request to Flask API
+                const response = await fetch(`${API_BASE}/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Remove typing indicator
+                removeTypingIndicator();
+                
+                if (data.success) {
+                    // Add bot response to chat
+                    addMessageToChat('bot', data.answer, data.source, true);
+                    
+                    // Add to conversation history
+                    conversationHistory.push({
+                        role: 'bot',
+                        content: data.answer,
+                        source: data.source,
+                        timestamp: new Date().toISOString()
+                    });
+                    
+                    // Save conversation history
+                    localStorage.setItem('chatbotHistory', JSON.stringify(conversationHistory));
+                    
+                    // Show feedback buttons
+                    showFeedbackButtons();
+                } else {
+                    addMessageToChat('bot', 'Sorry, I encountered an error processing your question. Please try again.', 'error', true);
+                }
+            } catch (error) {
+                console.error('Chat error:', error);
+                removeTypingIndicator();
+                
+                // Fallback to simulated response if API is not available
+                simulateChatResponse(message);
+            } finally {
+                // Re-enable input
+                input.disabled = false;
+                input.placeholder = "Ask me anything about cybersecurity...";
+                input.focus();
+            }
+        }
+        
+        // Simulate response if API is not available
+        function simulateChatResponse(message) {
+            setTimeout(() => {
+                removeTypingIndicator();
+                
+                const lowerMessage = message.toLowerCase();
+                let response, source;
+                
+                if (lowerMessage.includes('phishing')) {
+                    response = "Phishing is a cyber attack that uses disguised email as a weapon. The goal is to trick the email recipient into believing that the message is something they want or need — a request from their bank, for instance, or a note from someone in their company — and to click a link or download an attachment.\n\n**Prevention Tips:**\n1. Be cautious of unsolicited emails\n2. Verify sender email addresses\n3. Don't click on suspicious links\n4. Use email filtering software\n5. Enable two-factor authentication";
+                    source = 'mysql:cyber_threats, pdf:nist_guidelines.pdf';
+                } else if (lowerMessage.includes('encryption')) {
+                    response = "Encryption is the process of converting information or data into a code, especially to prevent unauthorized access. It uses algorithms to transform readable data (plaintext) into unreadable data (ciphertext).\n\n**Types of Encryption:**\n1. Symmetric Encryption (AES, DES)\n2. Asymmetric Encryption (RSA, ECC)\n3. Hash Functions (SHA-256)\n\n**Best Practices:**\n• Use strong encryption algorithms\n• Protect encryption keys\n• Encrypt sensitive data at rest and in transit";
+                    source = 'mysql:encryption_methods, pdf:crypto_standards.pdf';
+                } else if (lowerMessage.includes('gdpr') || lowerMessage.includes('compliance')) {
+                    response = "GDPR (General Data Protection Regulation) is a regulation in EU law on data protection and privacy. Key requirements include:\n\n**Key Principles:**\n1. Lawfulness, fairness, and transparency\n2. Purpose limitation\n3. Data minimization\n4. Accuracy\n5. Storage limitation\n6. Integrity and confidentiality\n7. Accountability\n\n**Organizations must:**\n• Obtain clear consent for data processing\n• Report data breaches within 72 hours\n• Implement privacy by design\n• Appoint a Data Protection Officer (if required)";
+                    source = 'mysql:regulations, pdf:gdpr_guidelines.pdf';
+                } else {
+                    response = "I understand you're asking about cybersecurity. My knowledge comes from multiple sources:\n\n**Available Knowledge Bases:**\n• MySQL Database: Structured cybersecurity data\n• PDF Documents: Latest guidelines and whitepapers\n\n**I can help you with:**\n• Threat identification and prevention\n• Security best practices\n• Compliance requirements\n• Incident response procedures\n• Network security configuration\n\nPlease ask a specific question about cybersecurity, and I'll provide comprehensive information from our knowledge sources.";
+                    source = 'mysql:knowledge_base, pdf:cybersecurity_framework.pdf';
+                }
+                
+                addMessageToChat('bot', response, source, true);
+                
+                conversationHistory.push({
+                    role: 'bot',
+                    content: response,
+                    source: source,
+                    timestamp: new Date().toISOString()
+                });
+                
+                localStorage.setItem('chatbotHistory', JSON.stringify(conversationHistory));
+                
+                showFeedbackButtons();
+            }, 1500);
+        }
+        
+        function addMessageToChat(role, content, source = null, scrollToBottom = true) {
+            const chatMessages = document.getElementById('chatbotMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}-message`;
+            
+            let formattedContent = content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>')
+                .replace(/\*\s(.*?)(?:\n|$)/g, '<li>$1</li>')
+                .replace(/<li>/g, '<ul style="margin: 0.5rem 0 0.5rem 1.5rem;"><li>')
+                .replace(/<\/li>/g, '</li></ul>');
+            
+            let messageHTML = `
+                <div class="message-content">
+                    <strong>${role === 'user' ? 'You' : 'AI Assistant'}:</strong>
+                    <div>${formattedContent}</div>
+            `;
+            
+            if (role === 'bot' && source) {
+                const sourceIcon = source.includes('mysql') ? 'fa-database' : 
+                                 source.includes('pdf') ? 'fa-file-pdf' : 'fa-brain';
+                const sourceText = source.includes('mysql') && source.includes('pdf') ? 
+                                  'MySQL & PDF Knowledge Base' : 
+                                  source.includes('mysql') ? 'MySQL Database' : 
+                                  source.includes('pdf') ? 'PDF Document' : 'Knowledge Base';
+                
+                messageHTML += `
+                    <div class="knowledge-source">
+                        <i class="fas ${sourceIcon}"></i>
+                        <span>Source: ${sourceText}</span>
+                    </div>
+                `;
+            }
+            
+            messageHTML += `
+                </div>
+                <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+            `;
+            
+            messageDiv.innerHTML = messageHTML;
+            chatMessages.appendChild(messageDiv);
+            
+            if (scrollToBottom) {
+                setTimeout(() => {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 100);
+            }
+        }
+        
+        function showTypingIndicator() {
+            const chatMessages = document.getElementById('chatbotMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <small>Retrieving information from knowledge bases...</small>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+        
+        function showFeedbackButtons() {
+            const chatMessages = document.getElementById('chatbotMessages');
+            const lastMessage = chatMessages.lastElementChild;
+            
+            if (!lastMessage || !lastMessage.querySelector('.message-content')) return;
+            
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = 'feedback-buttons';
+            feedbackDiv.innerHTML = `
+                <small>Was this answer helpful?</small>
+                <button onclick="submitFeedback(5)" class="btn btn-xs btn-success">
+                    <i class="fas fa-thumbs-up"></i> Yes
+                </button>
+                <button onclick="submitFeedback(3)" class="btn btn-xs btn-warning">
+                    <i class="fas fa-meh"></i> Neutral
+                </button>
+                <button onclick="submitFeedback(1)" class="btn btn-xs btn-danger">
+                    <i class="fas fa-thumbs-down"></i> No
+                </button>
+            `;
+            
+            lastMessage.querySelector('.message-content').appendChild(feedbackDiv);
+        }
+        
+        async function submitFeedback(rating) {
+            try {
+                const feedbackData = {
+                    rating: rating,
+                    conversation_id: conversationHistory.length,
+                    user_id: 'guest_user',
+                    timestamp: new Date().toISOString()
+                };
+                
+                const feedbackButtons = document.querySelectorAll('.feedback-buttons');
+                if (feedbackButtons.length > 0) {
+                    feedbackButtons.forEach(btn => {
+                        btn.innerHTML = '<small><i class="fas fa-check"></i> Thank you for your feedback!</small>';
+                    });
+                }
+                
+                console.log('Feedback submitted:', feedbackData);
+            } catch (error) {
+                console.error('Feedback error:', error);
+            }
+        }
+        
+        // Clear chat history
+        function clearChatHistory() {
+            if (confirm('Are you sure you want to clear the chat history?')) {
+                conversationHistory = [];
+                localStorage.removeItem('chatbotHistory');
+                
+                const chatMessages = document.getElementById('chatbotMessages');
+                while (chatMessages.children.length > 1) {
+                    chatMessages.removeChild(chatMessages.lastChild);
+                }
+                
+                addMessageToChat('bot', 'Chat history cleared. How can I help you with cybersecurity today?', 'system', true);
+            }
+        }
+        
+        // Quiz functions
+        function selectQuizOption(element) {
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            
+            if (element.querySelector('.option-letter').textContent === 'B') {
+                element.style.borderColor = 'var(--success)';
+                element.style.background = 'rgba(16, 185, 129, 0.1)';
+            }
+        }
+        
+        function showExplanation() {
+            const explanation = document.getElementById('quizExplanation');
+            explanation.classList.toggle('show');
+        }
+        
+        // Demo login function
+        function demoLogin() {
+            alert('Welcome to CyberGuard Demo! You can now access all features including the AI Assistant and quizzes.');
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userName', 'Demo User');
+            localStorage.setItem('userEmail', 'demo@cyberguard.com');
+            
+            // Update buttons
+            const authButtons = document.getElementById('authButtons');
+            const mobileAuthButtons = document.getElementById('mobileAuthButtons');
+            const heroButtons = document.getElementById('heroButtons');
+            
+            if (authButtons) {
+                authButtons.innerHTML = `
+                    <a href="#" class="btn btn-primary" onclick="startQuiz()">
+                        <i class="fas fa-play-circle"></i> Start Quiz
+                    </a>
+                `;
+            }
+            
+            if (mobileAuthButtons) {
+                mobileAuthButtons.innerHTML = `
+                    <a href="#" class="btn btn-primary" style="margin-top: 1rem;" onclick="startQuiz()">
+                        <i class="fas fa-play-circle"></i> Start Quiz
+                    </a>
+                `;
+            }
+            
+            if (heroButtons) {
+                heroButtons.innerHTML = `
+                    <a href="#" class="btn btn-primary btn-large" onclick="startQuiz()">
+                        <i class="fas fa-play-circle"></i> Start Learning
+                    </a>
+                    <a href="#chatbot" class="btn btn-secondary btn-large">
+                        <i class="fas fa-robot"></i> Ask AI Assistant
+                    </a>
+                `;
+            }
+        }
+        
+        // Start quiz
+        function startQuiz() {
+            alert('Starting quiz... In a real implementation, this would redirect to the quiz page.');
+        }
+        
+        // Initialize animations
+        function initializeAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        }
+        
+        // Initialize page functions
+        function initializePage() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    mobileMenu.classList.toggle('show');
+                    mobileMenuBtn.innerHTML = mobileMenu.classList.contains('show') 
+                        ? '<i class="fas fa-times"></i>' 
+                        : '<i class="fas fa-bars"></i>';
+                });
+                
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.remove('show');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    });
+                });
+            }
+            
+            document.addEventListener('click', (e) => {
+                if (mobileMenu && mobileMenuBtn && 
+                    !mobileMenu.contains(e.target) && 
+                    !mobileMenuBtn.contains(e.target)) {
+                    mobileMenu.classList.remove('show');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+            
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') return;
+                    
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const target = document.querySelector(targetId);
+                    
+                    if (target) {
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        
+                        const allLinks = document.querySelectorAll(`a[href="${targetId}"]`);
+                        allLinks.forEach(link => {
+                            link.classList.add('active');
+                        });
+                        
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        if (mobileMenu) {
+                            mobileMenu.classList.remove('show');
+                            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                        }
+                    }
+                });
+            });
+            
+            const chatInput = document.getElementById('chatInput');
+            if (chatInput) {
+                chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendChatMessage();
+                    }
+                });
+            }
+            
+            function setActiveNavLink() {
+                const sections = document.querySelectorAll('section[id]');
+                const scrollPos = window.scrollY + 100;
+                
+                let currentSectionId = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    const sectionId = section.getAttribute('id');
+                    
+                    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                        currentSectionId = sectionId;
+                    }
+                });
+                
+                if (currentSectionId) {
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${currentSectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            }
+            
+            window.addEventListener('scroll', setActiveNavLink);
+            setActiveNavLink();
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
